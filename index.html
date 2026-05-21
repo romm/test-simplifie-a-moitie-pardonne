@@ -446,6 +446,25 @@
 						</div>
 					</section>
 
+					<section data-auto-animate data-background-image="images/sun-tornado.svg">
+						<pre>
+							<code class="r-stretch" data-trim data-line-numbers="4-5">
+								public function test_can_bind_address_to_customer()
+								{
+									// Arrange
+									$customer = FakeCustomer::new(); // 😌
+									$address = FakeAddress::new();   // 😌
+
+									// Act
+									$customer = $customer->bindAddress($address);
+
+									// Assert
+									self::assertSame($address, $customer->address);
+								}
+							</code>
+						</pre>
+					</section>
+
 					<section data-auto-animate data-auto-animate-restart>
 						<h3>Object Mother Pattern</h3>
 					</section>
