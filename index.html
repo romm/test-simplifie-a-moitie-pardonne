@@ -26,9 +26,9 @@ public function test_peut_inscrire_participant_afup_day(): void
         id: ParticipantId::generate(),
         nom: new Nom('Lovelace'),
         prenom: new Prenom('Ada'),
-        email: new Email('ada.lovelace@afup-day.fr'),
+        email: new Email('ada.lovelace@example.com'),
         telephone: new NumeroTelephone('+33612345678'),
-        entreprise: new Entreprise('Analytical Engines SARL'),
+        entreprise: new Entreprise('Acme Corp'),
         adresseFacturation: new Adresse(
             rue: new Rue('4 place du Théâtre'),
             ville: new Ville('Lille'),
@@ -49,21 +49,30 @@ public function test_peut_inscrire_participant_afup_day(): void
     $confBcBreaks = new Conference(
         titre: new Titre('Le progrès réside dans les BC Breaks'),
         orateur: new Orateur('Gina Banyard'),
-        creneau: new Creneau('2026-05-22 09:25', dureeMinutes: 40),
+        creneau: new Creneau(
+            debut: '2026-05-22 09:25',
+            dureeMinutes: 40,
+        ),
         salle: Salle::GRANDE_SALLE,
     );
 
     $confTests = new Conference(
         titre: new Titre('Test simplifié à moitié pardonné'),
         orateur: new Orateur('Romain Canon'),
-        creneau: new Creneau('2026-05-22 14:50', dureeMinutes: 40),
+        creneau: new Creneau(
+            debut: '2026-05-22 14:50',
+            dureeMinutes: 40,
+        ),
         salle: Salle::GRANDE_SALLE,
     );
 
     $confFraude = new Conference(
         titre: new Titre('2 secondes pour détecter la fraude'),
         orateur: new Orateur('Mathieu Desnouveaux'),
-        creneau: new Creneau('2026-05-22 12:05', dureeMinutes: 40),
+        creneau: new Creneau(
+            debut: '2026-05-22 12:05',
+            dureeMinutes: 40,
+        ),
         salle: Salle::GRANDE_SALLE,
     );
 
@@ -90,7 +99,8 @@ public function test_peut_inscrire_participant_afup_day(): void
     $panier->choisirMoyenPaiement(MoyenPaiement::CARTE_BANCAIRE);
 
     $servicePaiement = $this->createMock(ServicePaiement::class);
-    $servicePaiement->expects(self::once())
+    $servicePaiement
+        ->expects(self::once())
         ->method('debiter')
         ->with(self::isInstanceOf(Montant::class))
         ->willReturn(
@@ -101,10 +111,13 @@ public function test_peut_inscrire_participant_afup_day(): void
         );
 
     $envoyeurEmail = $this->createMock(EnvoyeurEmail::class);
-    $envoyeurEmail->expects(self::exactly(3))->method('envoyer');
+    $envoyeurEmail
+        ->expects(self::exactly(3))
+        ->method('envoyer');
 
     $generateurBillet = $this->createMock(GenerateurBillet::class);
-    $generateurBillet->expects(self::once())
+    $generateurBillet
+        ->expects(self::once())
         ->method('genererPdf')
         ->willReturn(new BilletPdf('TICKET-AFUP-2026-0042.pdf'));
 
@@ -125,14 +138,32 @@ public function test_peut_inscrire_participant_afup_day(): void
     self::assertSame(StatutInscription::CONFIRMEE, $inscription->statut);
     self::assertSame($participant, $inscription->participant);
     self::assertSame($evenement, $inscription->evenement);
-    self::assertCount(3, $inscription->conferences);
-    self::assertEquals(new Montant(85_00, Devise::EUR), $inscription->prixHT);
-    self::assertEquals(new Montant(12_75, Devise::EUR), $inscription->montantReduction);
-    self::assertEquals(new Montant(14_45, Devise::EUR), $inscription->montantTVA);
-    self::assertEquals(new Montant(86_70, Devise::EUR), $inscription->totalTTC);
-    self::assertSame('txn_afup_42', $inscription->identifiantTransaction);
-    self::assertSame('TICKET-AFUP-2026-0042.pdf', $inscription->cheminBillet);
     self::assertNotNull($inscription->confirmeeLe);
+    self::assertCount(3, $inscription->conferences);
+    self::assertEquals(
+        new Montant(85_00, Devise::EUR),
+        $inscription->prixHT
+    );
+    self::assertEquals(
+        new Montant(12_75, Devise::EUR),
+        $inscription->montantReduction
+    );
+    self::assertEquals(
+        new Montant(14_45, Devise::EUR),
+        $inscription->montantTVA
+    );
+    self::assertEquals(
+        new Montant(86_70, Devise::EUR),
+        $inscription->totalTTC
+    );
+    self::assertSame(
+        'txn_afup_42',
+        $inscription->identifiantTransaction
+    );
+    self::assertSame(
+        'TICKET-AFUP-2026-0042.pdf',
+        $inscription->cheminBillet
+    );
 }
 							</code></pre>
 						</div>
