@@ -345,35 +345,38 @@
 
 				<section>
 					<section data-background-image="images/sun-tornado.svg">
-						<h2>Améliorer l'initialisation des données</h2>
+						<h2>A&#8729;A&#8729;A&nbsp;:&nbsp;Arrange<br><br>Là où ça bouchonne</h2>
 					</section>
 
 					<section data-background-image="images/subtle-prism.svg">
 						<div class="r-stack">
-						<pre>
-							<code class="r-stretch" data-trim data-line-numbers="|5-8,12-15">
-								public function test_can_bind_address_to_customer()
-								{
-									// Arrange
-									$customer = new Customer(
-										name: new Name('Ada Lovelace'),
-										birthdate: new DateTimeImmutable('1971-11-08'),
-										email: new Email('ada.lovelace@example.com'),
-										phone: new PhoneNumber('+33612345678'),
-									);
+							<pre>
+								<code class="r-stretch" data-trim data-line-numbers="|5-8,12-15">
+									public function test_can_bind_address_to_customer()
+									{
+										// Arrange
+										$customer = new Customer(
+											name: new Name('Ada Lovelace'),
+											birthdate: new DateTimeImmutable('1971-11-08'),
+											email: new Email('ada.lovelace@example.com'),
+											phone: new PhoneNumber('+33612345678'),
+										);
 
-									$address = new Address(
-										street: new Street('221B Baker Street'),
-										city: new City('London'),
-										zipCode: new ZipCode('NW1 6XE'),
-										country: new Country('United Kingdom'),
-									);
+										$address = new Address(
+											street: new Street('221B Baker Street'),
+											city: new City('London'),
+											zipCode: new ZipCode('NW1 6XE'),
+											country: new Country('United Kingdom'),
+										);
 
-									// Act
-									// Assert
-								}
-							</code>
-						</pre>
+										// Act
+										$customer = $customer->bindAddress($address);
+
+										// Assert
+										self::assertSame($address, $customer->address);
+									}
+								</code>
+							</pre>
 
 							<ul class="list-unstyled" style="font-weight: bolder;font-size: 250%;">
 								<li class="fragment">
