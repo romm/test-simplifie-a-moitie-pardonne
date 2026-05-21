@@ -1,9 +1,11 @@
 Test simplifié à moitié pardonné
 ================================
 
-Présentation donnée lors du Meetup AFUP Lyon du 12 décembre 2024 chez HelloCSE.
+Retrouvez la présentation ici : https://romm.github.io/test-simplifie-a-moitie-pardonne/
 
-https://www.meetup.com/fr-FR/afup-lyon-php/events/304487505/
+Présentation donnée :
+- Lors du Meetup AFUP Lyon du 12 décembre 2024 chez HelloCSE — https://www.meetup.com/fr-FR/afup-lyon-php/events/304487505/
+- Lors de l'AFUP Day Lille du 22 mai 2026 au Théâtre La Comédie — https://event.afup.org/afup-day-2026/afup-day-2026-lille/ 
 
 ## Setup
 
