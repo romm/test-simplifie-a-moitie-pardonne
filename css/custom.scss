@@ -177,12 +177,12 @@ table.social {
   // Gated on `.present` so the animation is fully torn down when leaving the
   // slide and re-runs from scratch on return.
   &.present:has(.intro-ignition.fragment.visible) .intro-code-line {
-    animation: intro-line-burn 0.8s ease-in forwards;
+    animation: intro-line-burn 0.6s ease-in forwards;
   }
 
-  @for $i from 1 through 110 {
+  @for $i from 1 through 200 {
     &.present:has(.intro-ignition.fragment.visible) .intro-code-line:nth-last-child(#{$i}) {
-      animation-delay: #{($i - 1) * 0.04}s;
+      animation-delay: #{2.15 + ($i - 1) * 0.008}s;
     }
   }
 
