@@ -1059,41 +1059,63 @@ public function test_peut_inscrire_participant_afup_day(): void
 				</section>
 
 				<section data-background-image="images/sun-tornado.svg">
-					<div style="max-width: 60%; margin: 0 auto;">
-						<h2 class="r-fit-text">Merci !</h2>
-					</div>
-
-					<div class="r-hstack" style="gap: 4rem; align-items: center; justify-content: center; margin-top: 1.5rem;">
-						<div class="r-vstack" style="align-items: center; gap: 0; width: 280px;">
-							<p style="font-size: 0.6em; font-weight: 700; margin: 0; text-align: center; line-height: 1.2; white-space: nowrap;">Donne tes impressions 🙏</p>
-							<img src="images/qr-code-feedback.png" alt="QR code feedback" style="width: 280px; max-height: none;"/>
+					<div class="r-hstack" style="gap: 3rem; align-items: stretch; justify-content: center;">
+						<div class="r-vstack" style="align-items: flex-start; justify-content: space-between;">
+							<div style="position: relative; display: inline-block; width: 320px; text-align: left;">
+								<p style="margin: 0 0 0.4rem 0; font-size: 0.5em; font-weight: 700; line-height: 1.2; white-space: nowrap;">
+									Donne tes impressions 🙏
+								</p>
+								<img src="images/qr-code-feedback.png" alt="QR code feedback" style="width: 220px; height: 220px; max-height: none; display: block; margin: 0;"/>
+								<svg style="position: absolute; top: 0; right: 0; width: 100px; height: 165px; pointer-events: none;" viewBox="0 0 100 165" fill="none" stroke="#333" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M 85 10 C 105 50, 90 110, 32 140"/>
+									<polyline points="36,129 32,140 43,144"/>
+								</svg>
+							</div>
+							<table class="social table-unstyled" style="font-size: 0.65em; margin-top: 3rem;">
+								<tr>
+									<td>
+										<img src="images/github.svg" alt="Github" class="social"/>
+									</td>
+									<td>@Romm</td>
+								</tr>
+								<tr>
+									<td>
+										<img src="images/linkedin.svg" alt="LinkedIn" class="social"/>
+									</td>
+									<td>@romain-canon</td>
+								</tr>
+								<tr>
+									<td>
+										<img src="images/mastodon.svg" alt="Mastodon" class="social"/>
+									</td>
+									<td>@Romm@mastodon.social</td>
+								</tr>
+								<tr>
+									<td>
+										<img src="images/bluesky.svg" alt="Bluesky" class="social"/>
+									</td>
+									<td>@romain-canon.com</td>
+								</tr>
+							</table>
 						</div>
-						<table class="social table-unstyled">
-							<tr>
-								<td>
-									<img src="images/github.svg" alt="Github" class="social"/>
-								</td>
-								<td>@Romm</td>
-							</tr>
-							<tr>
-								<td>
-									<img src="images/linkedin.svg" alt="LinkedIn" class="social"/>
-								</td>
-								<td>@romain-canon</td>
-							</tr>
-							<tr>
-								<td>
-									<img src="images/mastodon.svg" alt="Mastodon" class="social"/>
-								</td>
-								<td>@Romm@mastodon.social</td>
-							</tr>
-							<tr>
-								<td>
-									<img src="images/bluesky.svg" alt="Bluesky" class="social"/>
-								</td>
-								<td>@romain-canon.com</td>
-							</tr>
-						</table>
+
+						<div class="r-vstack" style="align-items: center; justify-content: space-between;">
+							<div style="flex: 1; display: flex; align-items: center; justify-content: center; width: 100%;">
+								<div style="width: 100%;">
+									<h2 class="r-fit-text" style="margin: 0;">Merci !</h2>
+								</div>
+							</div>
+							<div style="position: relative; display: inline-block; width: 320px; text-align: left;">
+								<p style="margin: 0 0 0.4rem 0; font-size: 0.5em; font-weight: 700; line-height: 1.2; white-space: nowrap;">
+									Par ici pour revoir les slides
+								</p>
+								<img src="images/qr-code-talk.png" alt="QR code du talk" style="width: 220px; height: 220px; max-height: none; display: block; margin: 0;"/>
+								<svg style="position: absolute; top: 0; right: 0; width: 100px; height: 165px; pointer-events: none;" viewBox="0 0 100 165" fill="none" stroke="#333" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M 85 10 C 105 50, 90 110, 32 140"/>
+									<polyline points="36,129 32,140 43,144"/>
+								</svg>
+							</div>
+						</div>
 					</div>
 				</section>
 
