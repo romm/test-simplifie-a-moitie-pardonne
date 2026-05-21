@@ -597,40 +597,71 @@
 					</pre>
 					</section>
 
-					<section>
-					<pre>
-						<code class="r-stretch" data-trim data-line-numbers="4-5">
-							public function test_can_bind_address_to_customer()
-							{
-								// Arrange
-								$customer = FakeCustomer::new(); // 😌
-								$address = FakeAddress::new();   // 😌
-
-								// Act
-								// Assert
-							}
-						</code>
-					</pre>
-					</section>
-				</section>
-
-				<section>
-					<section data-background-image="images/subtle-prism.svg" data-auto-animate>
-						<h3>Besoin d'une valeur<br />en particulier ?</h3>
-					</section>
-
-					<section data-background-image="images/subtle-prism.svg" data-auto-animate>
-						<h3>Besoin d'une valeur<br />en particulier ?</h3>
-
+					<section data-background-image="images/subtle-prism.svg">
 						<pre>
-							<code class="r-stretch" data-trim data-line-numbers="5-6">
+							<code class="r-stretch" data-trim data-line-numbers="4-5">
 								public function test_can_bind_address_to_customer()
 								{
 									// Arrange
-									$customer = FakeCustomer::new(
-										// This value is important for the test
-										email: 'ada.lovelace@example.com'
-									);
+									$customer = FakeCustomer::new(); // 😌
+									$address = FakeAddress::new();   // 😌
+
+									// Act
+									$customer = $customer->bindAddress($address);
+
+									// Assert
+									self::assertSame($address, $customer->address);
+								}
+							</code>
+						</pre>
+					</section>
+
+					<section data-background-image="images/subtle-prism.svg">
+						<pre>
+							<code class="r-stretch" data-trim>
+								public function test_can_spot_afup_member()
+								{
+									// Arrange
+									$amelie = FakeCustomer::new(email: 'amelie@afup.org');
+									$nathan = FakeCustomer::new(email: 'nathan@botron.fr');
+
+									// Assert
+									self::assertTrue($amelie->isAfupMember);
+									self::assertFalse($nathan->isAfupMember);
+								}
+							</code>
+						</pre>
+					</section>
+
+					<section>
+						<pre>
+							<code class="r-stretch" data-trim data-line-numbers>
+								final class FakeCustomer
+								{
+									public static function new(…) { … }
+
+									public static function nathan_botron(): Customer
+									{
+										return self::new(
+											name:      'Nathan Botron',
+											birthDate: '1990-08-06',
+											email:     'nathan.botron@example.com',
+											phone:     '0612345678',
+										);
+									}
+								}
+							</code>
+						</pre>
+					</section>
+
+					<section>
+						<pre>
+							<code class="r-stretch" data-trim data-line-numbers="4-5">
+								public function test_can_bind_address_to_customer()
+								{
+									// Arrange
+									$customer = FakeCustomer::nathan_botron();
+									$address = FakeAddress::abbey_road();
 
 									// Act
 									// Assert
@@ -740,6 +771,8 @@
 							{
 								public static function new(…) {…}
 
+								public static function nathan_botron() {…}
+
 								public static function random(): Customer
 								{
 									return new Customer(
@@ -796,18 +829,20 @@
 
 					<section data-background-image="images/subtle-prism.svg">
 					<pre>
-						<code class="r-stretch" data-trim data-line-numbers="|6-9|13">
+						<code class="r-stretch" data-trim data-line-numbers="|8-10|15">
 							final class AppFixtures extends Fixture
 							{
 								public function load(ObjectManager $manager): void
 								{
+									// On veut toujours les retrouver
+									// dans notre application :
 									$manager->persist(
-										FakeCustomer::new(
-											name: 'Ada Lovelace',
-											email: 'ada.lovelace@example.com',
-										)
+										FakeCustomer::nathan_botron(),
+										FakeCustomer::jane_doe(),
+										FakeCustomer::ada_lovelace(),
 									);
 
+									// Et 10 autres aléatoires…
 									for ($i = 0; $i < 10; $i++) {
 										$manager->persist(FakeCustomer::random());
 									}
