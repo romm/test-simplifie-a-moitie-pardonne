@@ -789,36 +789,23 @@
 					</section>
 
 					<section>
-					<h3>Préserver<br/>les mêmes données</h3>
-					</section>
+					<pre>
+						<code class="r-stretch" data-trim>
+							public function test_can_do_something_with_many_customers()
+							{
+								// Arrange
+								$customerA = FakeCustomer::random();
+								$customerB = FakeCustomer::random();
+								$customerC = FakeCustomer::random();
+								$customerD = FakeCustomer::random();
+								$customerE = FakeCustomer::random();
+								// …
 
-					<section>
-						<pre>
-							<code class="r-stretch" data-trim data-line-numbers="|18-20">
-								use PHPUnit\Event\Test\PreparationStarted;
-								use PHPUnit\Event\Test\PreparationStartedSubscriber;
-
-								class FixedSeed implements PreparationStartedSubscriber
-								{
-									/**
-									 * This subscriber is specifically tied to the use of
-									 * Faker and is triggered before each PHPUnit test is
-									 * executed. It reassigns the seed for Faker's random
-									 * functions based on the test's signature, ensuring
-									 * that the same seed is used consistently for each
-									 * test run. As a result, Faker generates the same
-									 * random values for a given test, provided the test
-									 * signature remains unchanged.
-									 */
-									public function notify(PreparationStarted $event)
-									{
-										$hash = crc32($event->test()->id());
-
-										faker()->seed($hash);
-									}
-								}
-							</code>
-						</pre>
+								// Act
+								// Assert
+							}
+						</code>
+					</pre>
 					</section>
 				</section>
 
@@ -923,6 +910,41 @@
 							</tr>
 						</table>
 					</div>
+				</section>
+
+				<section>
+					<section>
+						<h3>Préserver<br/>les mêmes données</h3>
+					</section>
+
+					<section>
+						<pre>
+							<code class="r-stretch" data-trim data-line-numbers="|18-20">
+								use PHPUnit\Event\Test\PreparationStarted;
+								use PHPUnit\Event\Test\PreparationStartedSubscriber;
+
+								class FixedSeed implements PreparationStartedSubscriber
+								{
+									/**
+									 * This subscriber is specifically tied to the use of
+									 * Faker and is triggered before each PHPUnit test is
+									 * executed. It reassigns the seed for Faker's random
+									 * functions based on the test's signature, ensuring
+									 * that the same seed is used consistently for each
+									 * test run. As a result, Faker generates the same
+									 * random values for a given test, provided the test
+									 * signature remains unchanged.
+									 */
+									public function notify(PreparationStarted $event)
+									{
+										$hash = crc32($event->test()->id());
+
+										faker()->seed($hash);
+									}
+								}
+							</code>
+						</pre>
+					</section>
 				</section>
 			</div>
 		</div>
