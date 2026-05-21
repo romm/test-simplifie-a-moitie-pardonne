@@ -15,8 +15,156 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section data-background-image="images/sun-tornado.svg">
-					<h1>Test simplifié<br/>à moitié pardonné</h1>
+				<section data-background-image="images/sun-tornado.svg" class="intro-slide">
+					<div class="intro-code-scroll" aria-hidden="true">
+						<div class="intro-code-track">
+							<pre><code class="language-php intro-code-block" data-trim data-noescape>
+public function test_peut_inscrire_participant_afup_day(): void
+{
+    // Arrange
+    $participant = new Participant(
+        id: ParticipantId::generate(),
+        nom: new Nom('Lovelace'),
+        prenom: new Prenom('Ada'),
+        email: new Email('ada.lovelace@afup-day.fr'),
+        telephone: new NumeroTelephone('+33612345678'),
+        entreprise: new Entreprise('Analytical Engines SARL'),
+        adresseFacturation: new Adresse(
+            rue: new Rue('4 place du Théâtre'),
+            ville: new Ville('Lille'),
+            codePostal: new CodePostal('59000'),
+            pays: new Pays('France'),
+        ),
+    );
+
+    $evenement = new Evenement(
+        id: EvenementId::generate(),
+        nom: new NomEvenement('AFUP Day 2026 Lille'),
+        date: new DateTimeImmutable('2026-05-22'),
+        lieu: new Lieu('La Comédie, Lille'),
+        capaciteMax: new Capacite(250),
+        organisateur: new Organisateur('AFUP Hauts-de-France'),
+    );
+
+    $confBcBreaks = new Conference(
+        titre: new Titre('Le progrès réside dans les BC Breaks'),
+        orateur: new Orateur('Gina Banyard'),
+        creneau: new Creneau('2026-05-22 09:25', dureeMinutes: 40),
+        salle: Salle::GRANDE_SALLE,
+    );
+
+    $confTests = new Conference(
+        titre: new Titre('Test simplifié à moitié pardonné'),
+        orateur: new Orateur('Romain Canon'),
+        creneau: new Creneau('2026-05-22 14:50', dureeMinutes: 40),
+        salle: Salle::GRANDE_SALLE,
+    );
+
+    $confFraude = new Conference(
+        titre: new Titre('2 secondes pour détecter la fraude'),
+        orateur: new Orateur('Mathieu Desnouveaux'),
+        creneau: new Creneau('2026-05-22 12:05', dureeMinutes: 40),
+        salle: Salle::GRANDE_SALLE,
+    );
+
+    $codePromo = new CodePromo(
+        code: new CodeCoupon('AFUP-EARLY-BIRD'),
+        reduction: new Reduction(15, TypeReduction::POURCENT),
+        valableJusquau: new DateTimeImmutable('2026-04-30'),
+        evenementsEligibles: [$evenement->id],
+    );
+
+    $billet = new Billet(
+        participant: $participant,
+        evenement: $evenement,
+        type: TypeBillet::JOURNEE,
+        prixHT: new Montant(85_00, Devise::EUR),
+    );
+
+    $panier = new PanierInscription($participant);
+    $panier->ajouterBillet($billet);
+    $panier->inscrireAConference($confBcBreaks);
+    $panier->inscrireAConference($confFraude);
+    $panier->inscrireAConference($confTests);
+    $panier->appliquerCodePromo($codePromo);
+    $panier->choisirMoyenPaiement(MoyenPaiement::CARTE_BANCAIRE);
+
+    $servicePaiement = $this->createMock(ServicePaiement::class);
+    $servicePaiement->expects(self::once())
+        ->method('debiter')
+        ->with(self::isInstanceOf(Montant::class))
+        ->willReturn(
+            new ResultatPaiement(
+                succes: true,
+                identifiantTransaction: 'txn_afup_42'
+            )
+        );
+
+    $envoyeurEmail = $this->createMock(EnvoyeurEmail::class);
+    $envoyeurEmail->expects(self::exactly(3))->method('envoyer');
+
+    $generateurBillet = $this->createMock(GenerateurBillet::class);
+    $generateurBillet->expects(self::once())
+        ->method('genererPdf')
+        ->willReturn(new BilletPdf('TICKET-AFUP-2026-0042.pdf'));
+
+    $service = new ServiceInscription(
+        $servicePaiement,
+        $envoyeurEmail,
+        $generateurBillet,
+        new VerificateurCapacite(),
+        new ValidateurConflitsCreneaux(),
+        $this->createMock(LoggerInterface::class),
+    );
+
+    // Act
+    $inscription = $service->inscrire($panier);
+
+    // Assert
+    self::assertInstanceOf(Inscription::class, $inscription);
+    self::assertSame(StatutInscription::CONFIRMEE, $inscription->statut);
+    self::assertSame($participant, $inscription->participant);
+    self::assertSame($evenement, $inscription->evenement);
+    self::assertCount(3, $inscription->conferences);
+    self::assertEquals(new Montant(85_00, Devise::EUR), $inscription->prixHT);
+    self::assertEquals(new Montant(12_75, Devise::EUR), $inscription->montantReduction);
+    self::assertEquals(new Montant(14_45, Devise::EUR), $inscription->montantTVA);
+    self::assertEquals(new Montant(86_70, Devise::EUR), $inscription->totalTTC);
+    self::assertSame('txn_afup_42', $inscription->identifiantTransaction);
+    self::assertSame('TICKET-AFUP-2026-0042.pdf', $inscription->cheminBillet);
+    self::assertNotNull($inscription->confirmeeLe);
+}
+							</code></pre>
+						</div>
+					</div>
+					<div class="intro-ignition fragment" aria-hidden="true">
+						<div class="intro-walker">
+							<span class="intro-bonhomme">🚶</span>
+							<span class="intro-match-stick"><span class="intro-match-head"></span></span>
+						</div>
+						<div class="intro-spark"></div>
+						<div class="intro-flames">
+							<div class="intro-flames-row">
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+								<span class="intro-flame">🔥</span>
+							</div>
+						</div>
+					</div>
+					<h1 class="intro-title">Test simplifié<br/>à moitié pardonné</h1>
 				</section>
 
 				<section data-background-image="images/subtle-prism.svg" data-auto-animate>
@@ -974,6 +1122,38 @@
 						RevealHighlight,
 						RevealNotes,
 				]
+			}).then(() => {
+				// Reset reveal's inline top offset on the intro slide so the
+				// title sits in the middle of a section that we force to 100%
+				// height via CSS.
+				const resetIntroTop = () => {
+					document.querySelectorAll('section.intro-slide').forEach(s => {
+						s.style.top = '0px';
+					});
+				};
+				resetIntroTop();
+				Reveal.on('slidechanged', resetIntroTop);
+				Reveal.on('resize', resetIntroTop);
+
+				// After highlight.js has colored the intro code, wrap each rendered
+				// line in a <span class="intro-code-line"> so each can be targeted by
+				// the per-line CSS burn cascade. Join with '' (not '\n') — the parent
+				// has white-space: pre, so any inter-span newline would render as an
+				// extra blank line.
+				// Then clone the <pre> in the same track so the translateY(-50%) scroll
+				// animation loops seamlessly: the bottom half of the track becomes an
+				// exact copy of the top half, so reaching -50% visually matches 0.
+				document.querySelectorAll('.intro-code-block').forEach(codeEl => {
+					codeEl.innerHTML = codeEl.innerHTML
+						.split('\n')
+						.map(line => `<span class="intro-code-line">${line}</span>`)
+						.join('');
+
+					const pre = codeEl.closest('pre');
+					if (pre && pre.parentNode) {
+						pre.parentNode.appendChild(pre.cloneNode(true));
+					}
+				});
 			});
 		</script>
 	</body>
