@@ -131,3 +131,27 @@ table.social {
   margin: 0.2rem 0;
 }
 
+
+.om-translate-fr {
+  opacity: 0;
+}
+
+body.om-translate {
+  .om-translate-en {
+    animation: om-translate-fade-out 0.5s ease 3s forwards;
+  }
+  .om-translate-fr {
+    animation: om-translate-fade-in 0.5s ease 3s forwards;
+  }
+}
+
+@keyframes om-translate-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes om-translate-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
