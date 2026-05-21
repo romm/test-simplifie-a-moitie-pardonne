@@ -132,6 +132,298 @@ table.social {
 }
 
 
+.reveal .slides > section.intro-slide {
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.reveal .intro-slide {
+  .intro-code-scroll {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -10%;
+    right: -15%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black 15%,
+      black 92%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black 15%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .intro-code-line {
+    display: block;
+    min-height: 1.45em;
+    white-space: pre;
+    will-change: color, opacity, text-shadow;
+  }
+
+  // Cascade per-line. nth-last-child: the *last* span in the DOM burns first,
+  // so the cascade visually rises from the bottom of the code toward the top.
+  // Gated on `.present` so the animation is fully torn down when leaving the
+  // slide and re-runs from scratch on return.
+  &.present:has(.intro-ignition.fragment.visible) .intro-code-line {
+    animation: intro-line-burn 0.8s ease-in forwards;
+  }
+
+  @for $i from 1 through 110 {
+    &.present:has(.intro-ignition.fragment.visible) .intro-code-line:nth-last-child(#{$i}) {
+      animation-delay: #{($i - 1) * 0.04}s;
+    }
+  }
+
+  .intro-code-track {
+    animation: intro-code-scroll-up 50s linear infinite;
+    will-change: transform;
+  }
+
+  .intro-code-track pre {
+    margin: 0 !important;
+    padding-bottom: 40vh !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    font-size: 1em !important;
+  }
+
+  .intro-code-track code,
+  .intro-code-track code.hljs {
+    display: block;
+    background: transparent !important;
+    opacity: 0.7;
+    font-size: 30px !important;
+    line-height: 1.45 !important;
+    max-height: none !important;
+    padding: 0 0.5rem !important;
+    text-align: left;
+    white-space: pre;
+    overflow: visible;
+  }
+
+  .intro-title {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    padding: 1.2rem 2.2rem;
+    font-size: 1.4em !important;
+    line-height: 1.1;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 14px;
+    box-shadow: 0 25px 70px rgba(15, 23, 42, 0.35);
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.8);
+    opacity: 0;
+  }
+
+  &.present:has(.intro-ignition.fragment.visible) .intro-title {
+    animation: intro-title-fade-in 1.5s ease-out 6.5s forwards;
+  }
+
+  .intro-flames {
+    position: absolute;
+    left: -15%;
+    right: -15%;
+    bottom: -6%;
+    z-index: 1;
+    pointer-events: none;
+    transform-origin: center bottom;
+    transform: scale(1, 1.75);
+    opacity: 0;
+    will-change: opacity;
+  }
+
+  .intro-flames-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    line-height: 0;
+  }
+
+  .intro-flame {
+    display: inline-block;
+    font-size: 180px;
+    line-height: 1;
+    transform-origin: bottom center;
+    animation: intro-flame-flicker 1.5s ease-in-out infinite alternate;
+  }
+
+  .intro-flame:nth-child(2n)   { font-size: 145px; }
+  .intro-flame:nth-child(3n)   { font-size: 220px; }
+  .intro-flame:nth-child(5n)   { font-size: 165px; }
+  .intro-flame:nth-child(7n+1) { font-size: 250px; }
+  .intro-flame:nth-child(11n)  { font-size: 130px; }
+
+  .intro-flame:nth-child(4n+1) { animation-delay: -0.3s; animation-duration: 1.7s; }
+  .intro-flame:nth-child(3n+2) { animation-delay: -0.9s; animation-duration: 1.2s; }
+  .intro-flame:nth-child(5n+3) { animation-delay: -1.3s; animation-duration: 1.4s; }
+  .intro-flame:nth-child(7n+4) { animation-delay: -0.6s; animation-duration: 1.9s; }
+
+  .intro-ignition {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .intro-ignition.fragment {
+    transition: none;
+  }
+
+  .intro-walker {
+    position: absolute;
+    bottom: -30px;
+    left: -420px;
+    z-index: 0;
+    display: inline-block;
+    will-change: transform;
+  }
+
+  .intro-bonhomme {
+    display: inline-block;
+    font-size: 240px;
+    line-height: 0.85;
+    transform: scaleX(-1);
+  }
+
+  .intro-match-stick {
+    position: absolute;
+    bottom: 46%;
+    left: 50%;
+    width: 9px;
+    height: 80px;
+    background: linear-gradient(to top, #5a2c0c 0%, #8b4513 100%);
+    border-radius: 3px;
+    transform-origin: bottom center;
+    transform: rotate(35deg);
+  }
+
+  .intro-match-head {
+    position: absolute;
+    top: -10px;
+    left: -5px;
+    width: 19px;
+    height: 24px;
+    background: radial-gradient(circle at 40% 40%, #fde047 0%, #f97316 60%, #b91c1c 100%);
+    border-radius: 60% 60% 50% 50%;
+    box-shadow: 0 0 10px rgba(251, 146, 60, 0.7);
+  }
+
+  .intro-spark {
+    position: absolute;
+    bottom: 16%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    margin-left: -35px;
+    background:
+      radial-gradient(circle, rgba(255, 255, 230, 1) 0%, rgba(255, 220, 120, 0.95) 18%, rgba(255, 140, 30, 0.6) 45%, transparent 75%);
+    filter: blur(1px);
+    opacity: 0;
+    transform: scale(0);
+    z-index: 1;
+  }
+
+  &.present .intro-ignition.fragment.visible .intro-walker {
+    animation: intro-walker-walk 5s linear forwards;
+  }
+
+  &.present .intro-ignition.fragment.visible .intro-match-stick {
+    animation: intro-match-strike 0.4s ease-in-out 1.9s forwards;
+  }
+
+  &.present .intro-ignition.fragment.visible .intro-match-head {
+    animation: intro-match-glow 4s ease-out 2.0s forwards;
+  }
+
+  &.present .intro-ignition.fragment.visible .intro-spark {
+    animation: intro-spark-flash 0.6s ease-out 2.15s forwards;
+  }
+
+  &.present .intro-ignition.fragment.visible .intro-flames {
+    animation:
+      intro-flames-rise 4s ease-out 2.15s forwards,
+      intro-flames-fade-out 2s ease-out 6.5s forwards;
+  }
+
+}
+
+@keyframes intro-flames-rise {
+  to { opacity: 1; }
+}
+
+@keyframes intro-flames-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes intro-flame-flicker {
+  0%   { transform: translateY(0)    scale(1, 1); }
+  25%  { transform: translateY(-10px) scale(1.05, 1.12); }
+  50%  { transform: translateY(-4px)  scale(0.94, 0.96); }
+  75%  { transform: translateY(-14px) scale(1.08, 1.06); }
+  100% { transform: translateY(2px)   scale(1.02, 0.98); }
+}
+
+@keyframes intro-title-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes intro-walker-walk {
+  0%    { transform: translateX(0); }
+  40%   { transform: translateX(720px); }
+  55%   { transform: translateX(720px); }
+  100%  { transform: translateX(1700px); }
+}
+
+@keyframes intro-match-strike {
+  0%   { transform: rotate(35deg); }
+  30%  { transform: rotate(2deg); }
+  65%  { transform: rotate(75deg); }
+  100% { transform: rotate(42deg); }
+}
+
+@keyframes intro-match-glow {
+  0%   { box-shadow: 0 0 6px rgba(251, 146, 60, 0.7); filter: brightness(1); }
+  10%  { box-shadow: 0 0 22px 4px rgba(255, 200, 80, 1); filter: brightness(1.5); }
+  100% { box-shadow: 0 0 14px rgba(255, 160, 60, 0.9); filter: brightness(1.2); }
+}
+
+@keyframes intro-spark-flash {
+  0%   { opacity: 0; transform: scale(0.2); }
+  35%  { opacity: 1; transform: scale(1.6); }
+  100% { opacity: 0; transform: scale(2.8); }
+}
+
+@keyframes intro-code-scroll-up {
+  from { transform: translateY(40vh); }
+  to   { transform: translateY(calc(40vh - 50%)); }
+}
+
+@keyframes intro-line-burn {
+  0%   { opacity: 0.7;  text-shadow: none;                                                                                 filter: brightness(1);                                  transform: translateX(0); }
+  25%  { opacity: 1;    text-shadow: 0 0 10px rgba(252, 211, 77, 1),    0 0 22px rgba(249, 115, 22, 0.8);                  filter: brightness(1.4) saturate(1.4);                  transform: translateX(0); }
+  50%  { opacity: 1;    text-shadow: 0 0 14px rgba(239, 68, 68, 1),     0 0 32px rgba(252, 211, 77, 0.7);                  filter: brightness(1.15) hue-rotate(-15deg);            transform: translateX(-1px); }
+  75%  { opacity: 0.5;  text-shadow: 0 0 6px rgba(124, 45, 18, 0.7);                                                       filter: brightness(0.45) saturate(0.3);                 transform: translateX(1px); }
+  100% { opacity: 0;    text-shadow: none;                                                                                 filter: brightness(0) saturate(0);                      transform: translateX(0); }
+}
+
+
 .om-translate-fr {
   opacity: 0;
 }
