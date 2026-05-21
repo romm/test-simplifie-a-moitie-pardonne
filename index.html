@@ -488,19 +488,60 @@
 						</p>
 					</section>
 
-					<section>
-					<pre>
-						<code class="r-stretch" data-trim data-line-numbers="|4,6">
-							final class FakeEmail
-							{
-								public static function new(
-									?string $email = null
-								): Email {
-									return new Email($email ?? 'jane.doe@example.com');
+					<section data-auto-animate>
+						<pre class="fragment semi-fade-out" data-fragment-index="0" data-id="email-class">
+							<code class="r-stretch" data-trim data-line-numbers>
+								final class Email
+								{
+									public function __construct(private string $value)
+									{
+										// Some validation here…
+									}
 								}
-							}
-						</code>
-					</pre>
+							</code>
+						</pre>
+						<pre class="fragment" data-fragment-index="0" data-id="fake-email-class">
+							<code class="r-stretch" data-trim data-line-numbers="|4,6">
+								final class FakeEmail
+								{
+									public static function new(
+										?string $email = null
+									): Email {
+										return new Email($email ?? 'jane.doe@example.com');
+									}
+								}
+							</code>
+						</pre>
+					</section>
+
+					<section data-auto-animate>
+						<pre data-id="test-email">
+							<code class="r-stretch" data-trim data-line-numbers="4">
+								public function test_can_do_something_with_email()
+								{
+									// Arrange
+									$email = FakeEmail::new();
+
+									// Act
+									// Assert
+								}
+							</code>
+						</pre>
+					</section>
+
+					<section data-auto-animate>
+						<pre data-id="test-email">
+							<code class="r-stretch" data-trim data-line-numbers="4">
+								public function test_can_do_something_with_email()
+								{
+									// Arrange
+									$email = FakeEmail::new('ada.lovelace@example.com');
+
+									// Act
+									// Assert
+								}
+							</code>
+						</pre>
 					</section>
 
 					<section>
