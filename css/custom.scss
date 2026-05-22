@@ -182,7 +182,7 @@ table.social {
 
   @for $i from 1 through 200 {
     &.present:has(.intro-ignition.fragment.visible) .intro-code-line:nth-last-child(#{$i}) {
-      animation-delay: #{2.15 + ($i - 1) * 0.008}s;
+      animation-delay: #{2.15 + ($i - 1) * 0.016}s;
     }
   }
 
@@ -446,4 +446,3 @@ body.om-translate {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-
